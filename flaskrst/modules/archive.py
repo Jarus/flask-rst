@@ -26,7 +26,8 @@ archive = Blueprint('archive', __name__)
 def index():
     archive = get_archive()
     return render_template('archive_index.html', 
-        archive=archive
+        archive=archive,
+        fullarchive=archive,
     )
 
 @archive.route("/<int:year>/")
@@ -36,6 +37,7 @@ def year(year):
         abort(404)
     return render_template('archive_year.html', 
         archive=archive[year],
+        fullarchive=archive,
         year=year
     )
 
@@ -48,6 +50,23 @@ def month(year, month):
         abort(404)
     return render_template('archive_month.html',
         archive=archive[year][month],
+        fullarchive=archive,
+        year=year,
+        month=month
+    )
+
+@archive.route("/archive/newest/")
+def month_newest():
+    archive = get_archive()
+    year=max(archive.keys())
+    if not year:
+        abort(404)
+    month=max(archive.get(year).keys())
+    if not month:
+        abort(404)
+    return render_template('archive_month.html',
+        archive=archive[year][month],
+        fullarchive=archive,
         year=year,
         month=month
     )
