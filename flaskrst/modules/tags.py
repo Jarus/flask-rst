@@ -37,6 +37,10 @@ def template_tags(doc):
     tags = [tag.lower() for tag in doc.config.get('tags', [])]
     return Markup(render_template('tags_inside_post.html', tags=tags))
 
+def list_tags(doc):
+    tags = [tag.lower() for tag in doc.config.get('tags', [])]
+    return ", ".join(tags)
+
 tags = Blueprint('tags', __name__)
 
 @tags.route("/tags/")
@@ -59,4 +63,5 @@ def tag(tag):
 
 def setup(app, cfg):
     app.jinja_env.globals['tags'] = template_tags
+    app.jinja_env.globals['tags_list'] = list_tags
     app.register_blueprint(tags)
