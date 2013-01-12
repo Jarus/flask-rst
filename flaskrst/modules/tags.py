@@ -52,6 +52,7 @@ def cloud():
 def tag(tag):
     blog_posts = get_posts_by_tag(tag)
     return render_template('tags_taged_with.html',
+        tags = get_tags(),
         tag=tag,
         blog_posts=blog_posts
     )
